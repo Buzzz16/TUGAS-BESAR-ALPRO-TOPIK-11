@@ -647,12 +647,12 @@ func bahanDigunakan() {
 	}
 }
 func headerTable() {
-	fmt.Println("=======================================================================================================")
-	fmt.Printf("%-3s | %-14s | %-10s | %-12s | %-13s | %-10s  | %-11s | %-26s |\n", "No", "Nama Bahan", "Jumlah", "Satuan", "Kategori", "Tanggal kadaluarsa", "Sisa hari", "pemberitahuan")
-	fmt.Println("-------------------------------------------------------------------------------------------------------")
+	fmt.Println("===============================================================================================================================")
+	fmt.Printf("%-3s | %-14s | %-10s | %-12s | %-13s | %-10s  | %-11s | %-23s |\n", "No", "Nama Bahan", "Jumlah", "Satuan", "Kategori", "Tanggal kadaluarsa", "Sisa hari", "pemberitahuan")
+	fmt.Println("-------------------------------------------------------------------------------------------------------------------------------")
 }
 func isiTableCariBahan(barang item, i int, sisaHari int, pemberitahuan string, cek int) {
-	fmt.Printf("%-3d | %-14s | %-10d | %-12s | %-13s | %02d/%02d/%-4d          | %-11d | %-26s |\n",
+	fmt.Printf("%-3d | %-14s | %-10d | %-12s | %-13s | %02d/%02d/%-4d          | %-11d | %-23s |\n",
 		cek+1, barang[i].nama, barang[i].jumlah, barang[i].satuan, barang[i].jenis,
 		barang[i].tanggalkadaluarsa, barang[i].bulankadaluarsa, barang[i].tahunkadaluarsa, sisaHari, pemberitahuan)
 }
