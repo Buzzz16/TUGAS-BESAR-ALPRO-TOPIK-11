@@ -78,6 +78,10 @@ func listmenu() {
 	fmt.Println("                         ▐█•█▌▐█▄█▌██ ██▌▐█▌▐█ ▪▐▌██▌▐▀     ▐█▌·▐█ ▪▐▌██▐█▌▐█▄▪▐█▐█▄▪▐█▐█ ▪▐▌                                         ")
 	fmt.Println("                         .▀  ▀ ▀▀▀ ▀▀  █▪▀▀▀ ▀  ▀ ▀▀▀ ·     ▀▀▀  ▀  ▀ ▀▀ █▪·▀▀▀▀ ·▀▀▀▀  ▀  ▀                                          ")
 	fmt.Println()
+	fmt.Println("=============================================")
+	fmt.Println("             ||  MENU UTAMA  ||")
+	fmt.Println("=============================================")
+	fmt.Println()
 	fmt.Println("1. Tambah Bahan Makanan")
 	fmt.Println("2. Edit")
 	fmt.Println("3. Tampilkan Bahan Makanan")
@@ -157,12 +161,12 @@ func tampilkanItem() {
 
 func tampilkanItemDefault() {
 	hapus()
-	var pilih int
-	pilih = 1
 	for i := 0; i < banyakData-1; i++ {
 		idx := i
 		for j := i + 1; j < banyakData; j++ {
-			if pilih == 1 && barang[j].tanggalmasuk > barang[idx].tanggalmasuk {
+			if barang[j].tahunmasuk < barang[idx].tahunmasuk ||
+				(barang[j].tahunmasuk == barang[idx].tahunmasuk && barang[j].bulanmasuk < barang[idx].bulanmasuk) ||
+				(barang[j].tahunmasuk == barang[idx].tahunmasuk && barang[j].bulanmasuk == barang[idx].bulanmasuk && barang[j].tanggalmasuk < barang[idx].tanggalmasuk) {
 				idx = j
 			}
 		}
@@ -174,16 +178,17 @@ func tampilkanItemDefault() {
 }
 
 func baseTersedia() {
-	barang[0] = itemDapur{"Apel", 1, "kg", "Buah", 11, 12, 2025, 12, 12, 2024}
-	barang[1] = itemDapur{"Gula Pasir", 2, "kg", "Pemanis", 3, 12, 2024, 13, 9, 2024}
-	barang[2] = itemDapur{"Beras", 10, "kg", "Karbohidrat", 9, 12, 2024, 3, 1, 2024}
-	barang[3] = itemDapur{"Daging Sapi", 5, "kg", "Protein", 2, 11, 2024, 4, 1, 2024}
-	barang[4] = itemDapur{"Minyak Goreng", 2, "liter", "Lemak", 1, 1, 2025, 5, 1, 2024}
-	barang[5] = itemDapur{"Telur", 12, "butir", "Protein", 10, 11, 2024, 6, 1, 2024}
+	barang[0] = itemDapur{"Apel", 1, "kg", "Buah", 11, 10, 2025, 12, 1, 2025}
+	barang[1] = itemDapur{"Gula Pasir", 2, "kg", "Pemanis", 29, 5, 2025, 13, 2, 2025}
+	barang[2] = itemDapur{"Beras", 10, "kg", "Karbohidrat", 9, 8, 2025, 3, 3, 2025}
+	barang[3] = itemDapur{"Daging Sapi", 5, "kg", "Protein", 2, 7, 2025, 4, 4, 2025}
+	barang[4] = itemDapur{"Minyak Goreng", 2, "liter", "Lemak", 1, 6, 2025, 5, 5, 2025}
+	barang[5] = itemDapur{"Telur", 12, "butir", "Protein", 10, 1, 2025, 6, 6, 2025}
 	banyakData = 6
 }
 func hariIni() {
-	tglSekarang, blnSekarang, thnSekarang = 1, 12, 2024
+	fmt.Printf("Masukan Tanggal Hari Ini :> \nformat penulisan (dd-mm-yyyy) : ")
+	fmt.Scan(&tglSekarang, &blnSekarang, &thnSekarang)
 }
 func ubahHari() {
 	fmt.Print("masukan tanggal hari ini (1-31) : ")
@@ -244,26 +249,38 @@ func editNamaBahan() {
 	hapus()
 	var idx int
 	tampilkanItem()
-	fmt.Print("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("0.kembali")
 	fmt.Scan(&idx)
+
+	if idx == 0 {
+		edit()
+
+	}
 	idx--
-	if idx > banyakData {
+
+	if idx < 0 || idx >= banyakData {
 		fmt.Println("Data tidak ditemukan")
 		tunggu()
 		return
+	} else {
+		fmt.Printf("Nama bahan saat ini: %s\n", barang[idx].nama)
+		fmt.Println("Masukkan nama bahan baru: ")
+		fmt.Scan(&barang[idx].nama)
+		fmt.Println("Nama bahan berhasil diubah!")
+		tunggu()
 	}
-	fmt.Printf("Nama bahan saat ini: %s\n", barang[idx].nama)
-	fmt.Print("Masukkan nama bahan baru: ")
-	fmt.Scan(&barang[idx].nama)
-	fmt.Println("Nama bahan berhasil diubah!")
-	tunggu()
 }
 func editJumlah() {
 	hapus()
 	var idx int
 	tampilkanItem()
-	fmt.Print("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("0.kembali")
 	fmt.Scan(&idx)
+	if idx == 0 {
+		edit()
+	}
 	idx--
 	if idx > banyakData {
 		fmt.Println("Data tidak ditemukan")
@@ -271,7 +288,7 @@ func editJumlah() {
 		return
 	}
 	fmt.Printf("Jumlah bahan saat ini: %d\n", barang[idx].jumlah)
-	fmt.Print("Masukkan nama bahan baru: ")
+	fmt.Print("Masukkan jumlah bahan baru: ")
 	fmt.Scan(&barang[idx].jumlah)
 	fmt.Println("jumlah bahan berhasil diubah!")
 	tunggu()
@@ -280,16 +297,21 @@ func editSatuan() {
 	hapus()
 	var idx int
 	tampilkanItem()
-	fmt.Print("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("0.kembali")
 	fmt.Scan(&idx)
+	if idx == 0 {
+		edit()
+	}
 	idx--
 	if idx > banyakData {
 		fmt.Println("Data tidak ditemukan")
 		tunggu()
 		return
 	}
+
 	fmt.Printf("Nama satuan saat ini: %s\n", barang[idx].satuan)
-	fmt.Print("Masukkan nama bahan baru: ")
+	fmt.Print("Masukkan satuan bahan baru: ")
 	fmt.Scan(&barang[idx].satuan)
 	fmt.Println("Nama Satuan berhasil diubah!")
 	tunggu()
@@ -298,8 +320,12 @@ func editKategori() {
 	hapus()
 	var idx int
 	tampilkanItem()
-	fmt.Print("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("0.kembali")
 	fmt.Scan(&idx)
+	if idx == 0 {
+		edit()
+	}
 	idx--
 	if idx > banyakData {
 		fmt.Println("Data tidak ditemukan")
@@ -307,7 +333,7 @@ func editKategori() {
 		return
 	}
 	fmt.Printf("Nama kategori saat ini: %s\n", barang[idx].jenis)
-	fmt.Print("Masukkan nama bahan baru: ")
+	fmt.Print("Masukkan kategori bahan baru: ")
 	fmt.Scan(&barang[idx].jenis)
 	fmt.Println("Nama kategori berhasil diubah!")
 	tunggu()
@@ -316,8 +342,12 @@ func editKadaluarsa() {
 	hapus()
 	var idx int
 	tampilkanItem()
-	fmt.Print("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("Masukkan nomor bahan yang ingin diedit: ")
+	fmt.Println("0.kembali")
 	fmt.Scan(&idx)
+	if idx == 0 {
+		edit()
+	}
 	idx--
 	if idx > banyakData {
 		fmt.Println("Data tidak ditemukan")
