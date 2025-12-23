@@ -22,8 +22,6 @@ type item [maxCapacity]itemDapur
 var barang item
 var banyakData int
 var tglSekarang, blnSekarang, thnSekarang int
-var pemberitahuan string
-var sisaHari int
 
 func main() {
 	var n int
@@ -149,7 +147,8 @@ func tampilkanItem() {
 		fmt.Println("----|----------------|------------|--------------|---------------|----------------|--------------|-------------|----------------------------|")
 
 		for i := 0; i < banyakData; i++ {
-
+			var pemberitahuan string
+			var sisaHari int
 			pemberitahuanKadaluarsa(barang, i, &pemberitahuan)
 			HitungSisaHari(barang, i, &sisaHari)
 			fmt.Printf("%-3d | %-14s | %-10d | %-12s | %-13s | %02d/%02d/%-7d  | %02d/%02d/%-4d   | %-11d | %-26s |\n",
@@ -282,7 +281,7 @@ func editJumlah() {
 		edit()
 	}
 	idx--
-	if idx > banyakData {
+	if idx < 0 || idx >= banyakData {
 		fmt.Println("Data tidak ditemukan")
 		tunggu()
 		return
@@ -304,7 +303,7 @@ func editSatuan() {
 		edit()
 	}
 	idx--
-	if idx > banyakData {
+	if idx < 0 || idx >= banyakData {
 		fmt.Println("Data tidak ditemukan")
 		tunggu()
 		return
@@ -327,7 +326,7 @@ func editKategori() {
 		edit()
 	}
 	idx--
-	if idx > banyakData {
+	if idx < 0 || idx >= banyakData {
 		fmt.Println("Data tidak ditemukan")
 		tunggu()
 		return
@@ -349,7 +348,7 @@ func editKadaluarsa() {
 		edit()
 	}
 	idx--
-	if idx > banyakData {
+	if idx < 0 || idx >= banyakData {
 		fmt.Println("Data tidak ditemukan")
 		tunggu()
 		return
@@ -716,7 +715,7 @@ func cariBahan() {
 					if cek == 0 {
 						headerTable()
 					}
-
+					var sisaHari int
 					HitungSisaHari(barang, i, &sisaHari)
 					pemberitahuanKadaluarsa(barang, i, &pemberitahuan)
 					isiTableCariBahan(barang, i, sisaHari, pemberitahuan, cek)
@@ -735,7 +734,7 @@ func cariBahan() {
 					if cek == 0 {
 						headerTable()
 					}
-
+					var sisaHari int
 					HitungSisaHari(barang, i, &sisaHari)
 					pemberitahuanKadaluarsa(barang, i, &pemberitahuan)
 					isiTableCariBahan(barang, i, sisaHari, pemberitahuan, cek)
@@ -747,14 +746,14 @@ func cariBahan() {
 			}
 		} else if pilih == 3 {
 			hapus()
-			fmt.Print("masukan jumlah bahan yang mau dicari : ")
+			fmt.Print("masukan satuan bahan yang mau dicari : ")
 			fmt.Scan(&satuan)
 			for i := 0; i < banyakData; i++ {
 				if barang[i].satuan == satuan {
 					if cek == 0 {
 						headerTable()
 					}
-
+					var sisaHari int
 					HitungSisaHari(barang, i, &sisaHari)
 					pemberitahuanKadaluarsa(barang, i, &pemberitahuan)
 					isiTableCariBahan(barang, i, sisaHari, pemberitahuan, cek)
@@ -766,14 +765,14 @@ func cariBahan() {
 			}
 		} else if pilih == 4 {
 			hapus()
-			fmt.Print("masukan jumlah bahan yang mau dicari : ")
+			fmt.Print("masukan kategori bahan yang mau dicari : ")
 			fmt.Scan(&kategori)
 			for i := 0; i < banyakData; i++ {
 				if barang[i].jenis == kategori {
 					if cek == 0 {
 						headerTable()
 					}
-
+					var sisaHari int
 					HitungSisaHari(barang, i, &sisaHari)
 					pemberitahuanKadaluarsa(barang, i, &pemberitahuan)
 					isiTableCariBahan(barang, i, sisaHari, pemberitahuan, cek)
@@ -800,7 +799,7 @@ func cariBahan() {
 						if cek == 0 {
 							headerTable()
 						}
-
+						var sisaHari int
 						HitungSisaHari(barang, i, &sisaHari)
 						pemberitahuanKadaluarsa(barang, i, &pemberitahuan)
 						isiTableCariBahan(barang, i, sisaHari, pemberitahuan, cek)
@@ -812,14 +811,14 @@ func cariBahan() {
 				}
 			} else if pilihOp == 2 {
 				hapus()
-				fmt.Print("masukan tanggal kadaluarsa bahan yang mau dicari : ")
+				fmt.Print("masukan bulan kadaluarsa bahan yang mau dicari : ")
 				fmt.Scan(&bulan)
 				for i := 0; i < banyakData; i++ {
 					if barang[i].bulankadaluarsa == bulan {
 						if cek == 0 {
 							headerTable()
 						}
-
+						var sisaHari int
 						HitungSisaHari(barang, i, &sisaHari)
 						pemberitahuanKadaluarsa(barang, i, &pemberitahuan)
 						isiTableCariBahan(barang, i, sisaHari, pemberitahuan, cek)
@@ -831,14 +830,14 @@ func cariBahan() {
 				}
 			} else if pilihOp == 3 {
 				hapus()
-				fmt.Print("masukan tanggal kadaluarsa bahan yang mau dicari : ")
+				fmt.Print("masukan tahun kadaluarsa bahan yang mau dicari : ")
 				fmt.Scan(&tahun)
 				for i := 0; i < banyakData; i++ {
 					if barang[i].tahunkadaluarsa == tahun {
 						if cek == 0 {
 							headerTable()
 						}
-
+						var sisaHari int
 						HitungSisaHari(barang, i, &sisaHari)
 						pemberitahuanKadaluarsa(barang, i, &pemberitahuan)
 						isiTableCariBahan(barang, i, sisaHari, pemberitahuan, cek)
